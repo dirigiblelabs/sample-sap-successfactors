@@ -1,0 +1,85 @@
+<!DOCTYPE xml>
+<mvc:View
+	controllerName="sample.timeschedule.ui.controllers.Planner"
+	xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:uxap="sap.uxap"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+	xmlns:unified="sap.ui.unified">
+	<Page
+		title="{ui>resources>i18n>applicationTitle}"
+		navButtonPress="handleNavBack"
+		class="sapUiSizeCompact"
+		busy="{busyIndicators>/main}"
+		>
+		<content>
+				<PlanningCalendar id="schedulePlanningCalendar"
+							rows="{managedEmployees>/employees}" 
+							specialDates="{specialDates>/holidays}"
+							appointmentsVisualization="Filled"
+							singleSelection="false"
+							viewKey="Week"
+							appointmentSelect="onSelectAppointment"
+							intervalSelect="onIntervalSelect"
+							startDateChange="onStartDateChanged"
+							viewChange="onStartDateChanged"
+							rowSelectionChange="onEmployeeSelected"
+							showIntervalHeaders="true"
+							showEmptyIntervalHeaders="false"
+							>
+							<dependents>
+								<ActionSheet id="appointmentActionSheet" placement="Bottom">
+									<buttons>
+										<Button text="{ui>resources>i18n>deleteButton}" icon="sap-icon://delete" press="onDeleteAppointment" />
+									</buttons>
+								</ActionSheet>
+							</dependents>
+							<specialDates>
+								<unified:DateTypeRange
+									startDate="{specialDates>start}"
+									endDate="{specialDates>end}"
+									type="{specialDates>}"
+								/>
+							</specialDates>
+							<rows>
+								<PlanningCalendarRow
+									key="{managedEmployees>userId}"
+									icon="{managedEmployees>image}"
+									title="{managedEmployees>firstName} {managedEmployees>lastName}"
+									text="{managedEmployees>title}"
+									appointments="{path: 'managedEmployees>appointments', templateShareable: 'true'}"
+									intervalHeaders="{path: 'managedEmployees>holidays', templateShareable: 'true'}"
+									enableAppointmentsDragAndDrop="true"
+									>
+									<appointments>
+										<unified:CalendarAppointment
+											key="{managedEmployees>key}"
+											startDate="{managedEmployees>start}"
+											endDate="{managedEmployees>end}"
+											color="{managedEmployees>type}"
+											type="{managedEmployees>type}"
+											tentative="{managedEmployees>tentative}"
+											title="{managedEmployees>title}"
+											text="{managedEmployees>text}"
+											tooltip="{managedEmployees>tooltip}"
+										/>
+									</appointments>
+									<intervalHeaders>
+										<unified:CalendarAppointment
+											startDate="{managedEmployees>start}"
+											endDate="{managedEmployees>end}"
+											color="{managedEmployees>type}"
+											type="{managedEmployees>type}"
+											title="{managedEmployees>title}"
+											text="{managedEmployees>text}"
+										/>
+									</intervalHeaders>
+								</PlanningCalendarRow>
+							</rows>
+						</PlanningCalendar>
+		</content>
+		<footer>
+			<Bar />
+		</footer>
+	</Page>
+</mvc:View>

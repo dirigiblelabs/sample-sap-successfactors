@@ -1,0 +1,4 @@
+<!DOCTYPE xml>
+<mvc:View controllerName="sample.timeschedule.ui.controllers.App" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" displayBlock="true">
+	<App id="app" />
+</mvc:View>

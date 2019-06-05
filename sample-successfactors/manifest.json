@@ -1,0 +1,71 @@
+{
+	"_version": "1.1.0",
+	"sap.app": {
+		"_version": "1.1.0",
+		"id": "sample.timeschedule",
+		"type": "application",
+		"title": "Time Schedule",
+		"applicationVersion": {
+			"version": "1.0.0"
+		}
+	},
+	"sap.ui": {
+		"_version": "1.1.0",
+		"technology": "UI5",
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_belize"
+		]
+	},
+	"sap.ui5": {
+		"_version": "1.1.0",
+		"rootView": {
+			"id": "applicatoinView",
+			"viewName": "sample.timeschedule.ui.views.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.3",
+			"libs": {
+				"sap.m": {},
+				"sap.ui.layout": {},
+				"sap.ui.unified": {}
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "sample.timeschedule.ui.views",
+				"controlId": "app",
+				"controlAggregation": "pages",
+				"bypassed": {
+					"target": "notFoundTarget"
+				}
+			},
+			"routes": [
+				{
+					"pattern": "",
+					"name": "timeschedule",
+					"target": "timescheduleTarget"
+				}
+			],
+			"targets": {
+				"timescheduleTarget": {
+					"viewName": "Planner"
+				},
+				"notFoundTarget": {
+					"viewName": "NotFound"
+				}
+			}
+		}
+	},
+	"sap.platform.hcp": {
+		"uri": "",
+		"_version": "1.1.0"
+	}
+}
