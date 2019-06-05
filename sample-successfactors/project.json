@@ -1,1 +1,19 @@
-{"guid":"sample-successfactors","repository":{"type":"git","branch":"master","url":"https://github.com/dirigiblelabs/sample-sap-successfactors.git"}}
+{
+	"guid": "sample-successfactors",
+	"repository": {
+		"type": "git",
+		"branch": "master",
+		"url": "https://github.com/dirigiblelabs/sample-sap-successfactors.git"
+	},
+	"dependencies": [{
+		"guid": "sap-successfactors-ec",
+		"url": "https://github.com/dirigiblelabs/client-sap-successfactors-ec.git",
+		"type": "git",
+		"branch": "master"
+	}, {
+		"guid": "sap-successfactors-platform",
+		"url": "https://github.com/dirigiblelabs/client-sap-successfactors-platform.git",
+		"type": "git",
+		"branch": "master"
+	}]
+}
