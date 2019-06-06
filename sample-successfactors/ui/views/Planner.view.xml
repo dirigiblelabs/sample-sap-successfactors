@@ -44,7 +44,7 @@
 							<rows>
 								<PlanningCalendarRow
 									key="{managedEmployees>userId}"
-									icon="{managedEmployees>image}"
+									icon="{managedEmployees>photo}"
 									title="{managedEmployees>firstName} {managedEmployees>lastName}"
 									text="{managedEmployees>title}"
 									appointments="{path: 'managedEmployees>appointments', templateShareable: 'true'}"

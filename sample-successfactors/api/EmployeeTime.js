@@ -2,6 +2,7 @@ var response = require("http/v4/response");
 var configurations = require("core/v4/configurations");
 var EmployeeTime = require("sap-successfactors-ec/TimeOff/EmployeeTime");
 var User = require("sap-successfactors-platform/UserManagement/User");
+var Photo = require("sap-successfactors-platform/ExternalUser/Photo");
 var DateUtils = require("sample-successfactors/api/DateUtils");
 
 var authConfiguration = {
@@ -14,6 +15,8 @@ var authConfiguration = {
 
 var employeeTimes = getEmployeeTimes(authConfiguration);
 var users = getUsers(authConfiguration, employeeTimes);
+addPhotos(authConfiguration, users);
+
 var data = formatData(users);
 
 response.setContentType("application/json");
@@ -99,4 +102,31 @@ function formatData(users) {
 	}
 
 	return data;
+}
+
+function addPhotos(authConfiguration, users) {
+	var photoClient = Photo.getClient(authConfiguration);
+	var response =  photoClient.list(Photo.queryBuilder()
+		.select(Photo.USER_ID, Photo.PHOTO)
+		.filter(getPhotoFilter(users))
+		.format("json")
+		.build()
+	);
+	var photos = response.d.results;
+	for (var i = 0; i < photos.length; i ++) {
+		users[photos[i][Photo.USER_ID]].photo = "data:image/png;base64," + photos[i][Photo.PHOTO];
+	}
+}
+
+function getPhotoFilter(users) {
+	var photoFilter = "";
+	for (var user in users) {
+		var filter = Photo.USER_ID.eq(user).and(Photo.PHOTO_TYPE.eq(1));
+		if (photoFilter.length === 0) {
+			photoFilter = filter;
+			continue;
+		}
+		photoFilter = photoFilter.or(filter);
+	}
+	return photoFilter;
 }
