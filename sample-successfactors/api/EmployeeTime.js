@@ -5,11 +5,12 @@ var User = require("sap-successfactors-platform/UserManagement/User");
 var Photo = require("sap-successfactors-platform/ExternalUser/Photo");
 var DateUtils = require("sample-successfactors/api/DateUtils");
 
+var base64 = require("utils/v4/base64");
 var authConfiguration = {
-	host: "https://sandbox.api.sap.com/successfactors",
+	host: "https://apisalesdemo4.successfactors.com",
 	headers: [{
-		name: "apikey",
-		value: configurations.get("API_KEY")
+		name: "Authorization",
+		value: "Basic " + base64.encode("sfadmin@SFPART037035:part1811DC4")
 	}]
 };
 
@@ -39,9 +40,9 @@ function getEmployeeTimes(authConfiguration) {
 			.and(EmployeeTime.START_DATE.ge(new Date(2016, 0, 1)))
 			.and(EmployeeTime.TIME_TYPE.eq("WORK"))
 		)
-		.format("json")
 		.build()
 	);
+
 	return data.d.results;
 }
 
@@ -51,24 +52,37 @@ function getUsers(authConfiguration, employeeTimes) {
 	for (var i = 0; i < employeeTimes.length; i ++) {
 		users[employeeTimes[i][EmployeeTime.USER_ID]] = {};
 	}
+	
+	var usersFilter = null;
 	for (var userId in users) {
-		var user = userClient.get(userId, User.queryBuilder()
-			.select(
-				User.FIRST_NAME,
-				User.LAST_NAME,
-				User.USERNAME,
-				User.USER_ID
-			)
-			.format("json")
-			.build()
-		);
-		users[userId] = {};
-		users[userId] = {
-			firstName: user.d[User.FIRST_NAME],
-			lastName: user.d[User.LAST_NAME],
+		var filter = User.USER_ID.eq(userId);
+		if (!usersFilter) {
+			usersFilter = filter;
+			continue;
+		}
+		usersFilter = usersFilter.or(filter);
+	}
+
+	var usersData = userClient.list(User.queryBuilder()
+		.select(
+			User.FIRST_NAME,
+			User.LAST_NAME,
+			User.USERNAME,
+			User.USER_ID
+		)
+		.filter(usersFilter)
+		.build()
+	).d.results;
+
+	for (var i = 0; i < usersData.length; i ++) {
+		var userData = usersData[i];
+		users[userData[User.USER_ID]] = {
+			firstName: userData[User.FIRST_NAME],
+			lastName: userData[User.LAST_NAME],
 			appointments: []
 		};
 	}
+
 	return users;
 }
 
@@ -109,7 +123,6 @@ function addPhotos(authConfiguration, users) {
 	var response =  photoClient.list(Photo.queryBuilder()
 		.select(Photo.USER_ID, Photo.PHOTO)
 		.filter(getPhotoFilter(users))
-		.format("json")
 		.build()
 	);
 	var photos = response.d.results;
@@ -117,6 +130,7 @@ function addPhotos(authConfiguration, users) {
 		users[photos[i][Photo.USER_ID]].photo = "data:image/png;base64," + photos[i][Photo.PHOTO];
 	}
 }
+
 
 function getPhotoFilter(users) {
 	var photoFilter = "";

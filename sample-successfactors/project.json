@@ -9,7 +9,7 @@
 		"guid": "sap-successfactors-ec",
 		"url": "https://github.com/dirigiblelabs/client-sap-successfactors-ec.git",
 		"type": "git",
-		"branch": "master"
+		"branch": "TimeOff"
 	}, {
 		"guid": "sap-successfactors-platform",
 		"url": "https://github.com/dirigiblelabs/client-sap-successfactors-platform.git",
