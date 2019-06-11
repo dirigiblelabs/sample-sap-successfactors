@@ -5,12 +5,11 @@ var User = require("sap-successfactors-platform/UserManagement/User");
 var Photo = require("sap-successfactors-platform/ExternalUser/Photo");
 var DateUtils = require("sample-successfactors/api/DateUtils");
 
-var base64 = require("utils/v4/base64");
 var authConfiguration = {
-	host: "https://apisalesdemo4.successfactors.com",
+	host: "https://sandbox.api.sap.com/successfactors",
 	headers: [{
-		name: "Authorization",
-		value: "Basic " + base64.encode("sfadmin@SFPART037035:part1811DC4")
+		name: "apikey",
+		value: configurations.get("API_KEY")
 	}]
 };
 
