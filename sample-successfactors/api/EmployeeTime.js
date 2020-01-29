@@ -5,11 +5,17 @@ var User = require("sap-successfactors-platform/UserManagement/User");
 var Photo = require("sap-successfactors-platform/ExternalUser/Photo");
 var DateUtils = require("sample-successfactors/api/DateUtils");
 
+var host = configurations.get("SFSF_HOST");
+var authHeader = host ? "Authorization" : "apikey";
+host = host ? host : "https://sandbox.api.sap.com/successfactors");
+var authToken = configurations.get("SFSF_AUTH_TOKEN");
+
+var headers = []
 var authConfiguration = {
-	host: "https://sandbox.api.sap.com/successfactors",
+	host: host,
 	headers: [{
-		name: "apikey",
-		value: configurations.get("API_KEY")
+		name: authHeader,
+		value: authToken
 	}]
 };
 
@@ -36,8 +42,7 @@ function getEmployeeTimes(authConfiguration) {
 		)
 		.filter(
 			EmployeeTime.START_TIME.ne(null)
-			.and(EmployeeTime.START_DATE.ge(new Date(2016, 0, 1)))
-			.and(EmployeeTime.TIME_TYPE.eq("WORK"))
+			.and(EmployeeTime.START_DATE.ge(new Date(2019, 0, 1)))
 		)
 		.build()
 	);
