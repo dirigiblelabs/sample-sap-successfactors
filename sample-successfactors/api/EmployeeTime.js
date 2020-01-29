@@ -7,7 +7,7 @@ var DateUtils = require("sample-successfactors/api/DateUtils");
 
 var host = configurations.get("SFSF_HOST");
 var authHeader = host ? "Authorization" : "apikey";
-host = host ? host : "https://sandbox.api.sap.com/successfactors");
+host = host ? host : "https://sandbox.api.sap.com/successfactors";
 var authToken = configurations.get("SFSF_AUTH_TOKEN");
 
 var headers = []
