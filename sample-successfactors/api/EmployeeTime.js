@@ -107,6 +107,9 @@ function formatData(users) {
 		var formattedStartTime = startTime.getHours() + ":" + (startTime.getMinutes() > 10 ? startTime.getMinutes() : "0" + startTime.getMinutes());
 		var formattedEndTime = endTime.getHours() + ":" + (endTime.getMinutes() > 10 ? endTime.getMinutes() : "0" + endTime.getMinutes());
 	
+		if (!users[userId].appointments) {
+			users[userId].appointments = [];
+		}
 		users[userId].appointments.push({
 			start: startDate.setHours(0, 0, 0, 0),
 			end: endDate.setHours(23, 59, 59, 59),
